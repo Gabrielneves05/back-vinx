@@ -127,7 +127,6 @@ const update = async (req, res) => {
 const getUserById = async (req, res) => {
     const { id } = req.params;
 
-    // Verifica se é um ObjectId válido antes de consultar
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({ errors: ["Invalid user ID."] });
     }

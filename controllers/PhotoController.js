@@ -23,11 +23,70 @@ const insertPhoto = async (req, res) => {
     // if photo was created successfully, return data
     if(!newPhoto) {
         res.status(422).json({errors: ["There was an error, please try again later."]});
+
+        return;
     }
 
     res.status(201).json(newPhoto);
 }
 
+// Remove a photo from database
+const deletePhoto = async (req, res) => {
+    const { id } = req.params;
+
+    const reqUser = req.user;
+
+    try {
+        if(!mongoose.Types.ObjectId.isValid(id)) {
+            res.status(400).json({ errors: ["Invalid photo ID."]});
+            
+            return;
+        }
+
+        const photo = await Photo.findById(id);
+
+        // check if photo exists
+        if(!photo) {
+            res.status(404).json({errors: ["Photo not found."]});
+
+            return;
+        }
+
+        // check if photo belongs to user
+        if(!photo.userId.equals(reqUser._id)) {
+            res.status(422).json({errors: ["There was an error, please try again later."]});
+
+            return;
+        }
+
+        await Photo.findByIdAndDelete(photo._id);
+
+        res.status(200).json({id: photo._id, message: "Photo deleted successfully."});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({errors: ["An unexpected error occurred, please try again later."]});
+
+        return;
+    }
+}
+
+// Get all photos
+const getAllPhotos = async (req, res) => {
+    try {
+        const photos = await Photo.find({}).sort([["createdAt", -1]]).exec();
+
+        if (!photos || photos.length === 0) {
+            return res.status(404).json({ message: "There are no photos available." });
+        }
+
+        return res.status(200).json(photos);
+    } catch (error) {
+        return res.status(500).json({ message: "An unexpected error occurred, please try again later." });
+    }
+};
+
 module.exports = {
     insertPhoto,
+    deletePhoto,
+    getAllPhotos,
 }

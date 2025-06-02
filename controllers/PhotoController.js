@@ -148,6 +148,40 @@ const updatePhoto = async (req, res) => {
     res.status(200).json({ photo, message: "Photo updated successfully." });
 }
 
+// Like functionality
+const likePhoto = async (req, res) => {
+    const { id } = req.params;
+
+    const reqUser = req.user;
+
+    const photo = await Photo.findById(id);
+
+    // check if photo exists
+    if (!photo) {
+        res.status(404).json({ errors: ["Photo not found."] });
+
+        return;
+    }
+
+    // check if user already liked photo
+    if (photo.likes.includes(reqUser._id)) {
+        res.status(400).json({ errors: ["You already liked this photo."] });
+
+        return;
+    }
+
+    // Put user id in photo likes array
+    photo.likes.push(reqUser._id);
+
+    await photo.save();
+
+    res.status(200).json({ 
+        photoId: id, 
+        userId: reqUser._id, 
+        message: "Photo liked successfully." 
+    });
+}
+
 module.exports = {
     insertPhoto,
     deletePhoto,
@@ -155,4 +189,5 @@ module.exports = {
     getUserPhotos,
     getPhotoById,
     updatePhoto,
+    likePhoto,
 }

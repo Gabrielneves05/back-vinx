@@ -4,25 +4,25 @@ const userCreateValidation = () => {
     return [
         body("name")
             .isString()
-            .withMessage("Name is required.")
+            .withMessage("O nome é obrigatório.")
             .isLength({ min: 3 })
-            .withMessage("Name must be at least 3 characters long."),
+            .withMessage("O nome deve ter pelo menos 3 caracteres."),
         body("email")
             .isString()
-            .withMessage("Email is required.")
+            .withMessage("O E-mail é obrigatório.")
             .isEmail()
-            .withMessage("Insert a valid email."),
+            .withMessage("Insira um E-mail válido."),
         body("password")
             .isString()
-            .withMessage("Password is required.")
+            .withMessage("A senha é obrigatória.")
             .isLength({ min: 6 })
-            .withMessage("Password must be at least 6 characters long."),
+            .withMessage("A senha deve ter pelo menos 6 caracteres."),
         body("confirmPassword")
             .isString()
-            .withMessage("Confirm password is required.")
+            .withMessage("A confirmação da senha é obrigatória.")
             .custom((value, { req }) => {
                 if (value !== req.body.password) {
-                    throw new Error("Passwords do not match.");
+                    throw new Error("As senhas não coincidem.");
                 }
 
                 return true;
@@ -34,12 +34,12 @@ const loginValidation = () => {
     return [
         body("email")
             .isString()
-            .withMessage("Email is required.")
+            .withMessage("O E-mail é obrigatório.")
             .isEmail()
-            .withMessage("Insert a valid email."),
+            .withMessage("Insira um E-mail válido."),
         body("password")
             .isString()
-            .withMessage("Password is required.")
+            .withMessage("A senha é obrigatória.")
     ]
 }
 
@@ -48,11 +48,11 @@ const userUpdateValidation = () => {
         body("name")
             .optional()
             .isLength({ min: 3 })
-            .withMessage("Name must be at least 3 characters long."),
+            .withMessage("O nome deve ter pelo menos 3 caracteres."),
         body("password")
             .optional()
             .isLength({ min: 6 })
-            .withMessage("Password must be at least 6 characters long."),
+            .withMessage("A palavra-passe deve ter pelo menos 6 caracteres."),
     ]
 }
 

@@ -5,15 +5,15 @@ const photoInsertValidation = () => {
         body("title")
             .not()
             .equals("undefined")
-            .withMessage("Title is required.")
+            .withMessage("O título é obrigatório.")
             .isString()
-            .withMessage("Title is required.")
+            .withMessage("O título é obrigatório.")
             .isLength({ min: 3 })
-            .withMessage("Title must be at least 3 characters."),
+            .withMessage("O título deve ter pelo menos 3 caracteres."),
         body("Image")
             .custom((value, { req }) => {
                 if(!req.file) {
-                    throw new Error("Image is required.");
+                    throw new Error("A imagem é obrigatória.");
                 }
 
                 return true;
@@ -25,9 +25,9 @@ const photoUpdateValidation = () => {
     return [
         body("title")
             .isString()
-            .withMessage("Title is required.")
+            .withMessage("O título é obrigatório.")
             .isLength({ min: 3 })
-            .withMessage("Title must be at least 3 characters.")
+            .withMessage("O título deve ter pelo menos 3 caracteres."),
     ];
 }
 
@@ -35,7 +35,7 @@ const commentValidation = () => {
     return [
         body("comment")
             .isString()
-            .withMessage("Comment is required.")
+            .withMessage("O comentário é obrigatório.")
     ];
 }
 

@@ -21,7 +21,7 @@ const register = async (req, res) => {
     const user = await User.findOne({ email });
 
     if(user) {
-        res.status(422).json({errors: ["Please use another email."]});
+        res.status(422).json({errors: ["Utilize outro endereço de E-mail."]});
 
         return;
     }
@@ -39,7 +39,7 @@ const register = async (req, res) => {
 
     // if user was created successfully, return the token
     if(!newUser) {
-        res.status(422).json({errors: ["There was an error, please try again later."]});
+        res.status(422).json({errors: ["Ocorreu um erro, tente novamente mais tarde."]});
 
         return;
     }
@@ -58,14 +58,14 @@ const login = async (req, res) => {
 
     // check if user exists
     if(!user) {
-        res.status(404).json({errors: ["User not found."]});
+        res.status(404).json({errors: ["Usuário não encontrado."]});
 
         return;
     }
 
     // check if password matches
     if(!(await bcrypt.compare(password, user.password))) {
-        res.status(422).json({errors: ["Incorrect password."]});
+        res.status(422).json({errors: ["Senha incorreta."]});
 
         return;
     }
@@ -128,19 +128,19 @@ const getUserById = async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ errors: ["Invalid user ID."] });
+        return res.status(400).json({ errors: ["ID de usuário inválido."] });
     }
 
     try {
         const user = await User.findById(id).select("-password");
 
         if (!user) {
-            return res.status(404).json({ errors: ["User not found."] });
+            return res.status(404).json({ errors: ["Usuário não encontrado."] });
         }
 
         res.status(200).json(user);
     } catch (error) {
-        res.status(500).json({ errors: ["Something went wrong."] });
+        res.status(500).json({ errors: ["Algo deu errado."] });
     }
 }
 

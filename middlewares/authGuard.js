@@ -8,7 +8,7 @@ const authGuard = async (req, res, next) => {
 
     // check if header has a token
     if(!token) {
-        res.status(401).json({errors: ["Access denied."]})
+        res.status(401).json({errors: ["Acesso negado."]})
     }
 
     // check if token is valid
@@ -19,7 +19,7 @@ const authGuard = async (req, res, next) => {
 
         next();
     } catch(error) {
-        res.status(401).json({errors: ["Token is invalid."]})
+        res.status(401).json({errors: ["Token inválido."]})
     }
 }
 

@@ -5,15 +5,13 @@ const dbPassword = process.env.DB_PASS;
 
 const conn = async () => {
   try {
-    const dbConn = await mongoose.connect(
+    await mongoose.connect(
       `mongodb+srv://${dbUser}:${dbPassword}@cluster-vinx.cpyaaok.mongodb.net/vinx?retryWrites=true&w=majority&appName=cluster-vinx`
     );
 
     console.log("Connected to MongoDB!");
-
-    return dbConn;
   } catch (error) {
-    console.log(error);
+    console.error("MongoDB connection error:", error);
   }
 };
 

@@ -1,18 +1,21 @@
 const mongoose = require("mongoose");
+
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASS;
 
 const conn = async () => {
-    try {
-        const dbConn = await mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster-vinx.cpyaaok.mongodb.net/?retryWrites=true&w=majority&appName=cluster-vinx`);
+  try {
+    const dbConn = await mongoose.connect(
+      `mongodb+srv://${dbUser}:${dbPassword}@cluster-vinx.cpyaaok.mongodb.net/vinx?retryWrites=true&w=majority&appName=cluster-vinx`
+    );
 
-        console.log('Connected to MongoDB!');
+    console.log("Connected to MongoDB!");
 
-        return dbConn;
-    } catch (error) {
-        console.log(error);
-    }
-}
+    return dbConn;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 conn();
 

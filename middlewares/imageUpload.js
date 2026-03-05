@@ -1,5 +1,6 @@
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
 // Destination to store the images
 const imageStorage = multer.diskStorage({
@@ -12,7 +13,15 @@ const imageStorage = multer.diskStorage({
             folder = "photos";
         }
 
-        cb(null, `uploads/${folder}/`);
+        const uploadPath = path.join(__dirname, "..", "uploads", folder);
+
+        try {
+            fs.mkdirSync(uploadPath, { recursive: true });
+        } catch (err) {
+            return cb(err);
+        }
+
+        cb(null, uploadPath);
     },
 
     filename: (req, file, cb) => {
